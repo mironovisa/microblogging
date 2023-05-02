@@ -1,0 +1,30 @@
+.tweet-btn {
+  width: 68px;
+  height: 34px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  background: #007bff;
+  border-radius: 4px;
+  border: none;
+}
+
+.tweet-btn:hover:not(:disabled) {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.tweet-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.tweet-btn:disabled {
+  background-color: gray;
+}

@@ -1,0 +1,13 @@
+.Header {
+  margin-top: 0px;
+  margin-bottom: 47px;
+  width: 60%;
+  height: 58px;
+  margin: 0 auto;
+  background: #343a40;
+  border-radius: 6px;
+}
+
+.Links {
+  line-height: 58px;
+}

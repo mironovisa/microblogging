@@ -1,0 +1,47 @@
+h1,
+label,
+span {
+  font-family: var(font-family);
+  color: white;
+}
+
+label {
+  font-weight: 200;
+  opacity: 80%;
+}
+.Profilepage {
+  width: 40%;
+  margin: 0 auto;
+}
+input {
+  background: none;
+  border: none;
+  padding: 2% 2% 2% 2%;
+  color: white;
+}
+input::placeholder {
+  color: #ffffff;
+}
+.Usernameinput {
+  box-sizing: border-box;
+  border: 2px solid #cccccc;
+  border-radius: 6px;
+  margin-top: 5px;
+}
+input:focus {
+  outline: none;
+}
+.Savebutton {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+.Savebutton > button {
+  margin-top: 10px;
+  position: absolute;
+  right: 0px;
+}
+.Usernamespan {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

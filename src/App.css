@@ -1,0 +1,20 @@
+body,
+body,
+ul {
+  margin: 0;
+  padding: 0;
+  background-color: #15202b;
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+  margin-left: 35px;
+  margin-right: 35px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #15202b;
+  font-family: "Roboto", sans-serif;
+}

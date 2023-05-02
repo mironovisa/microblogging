@@ -1,0 +1,69 @@
+.tweet-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 15px;
+  width: 100%;
+  background: #343a40;
+  border-radius: 6px;
+  height: auto;
+}
+
+.top-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding-right: 20px;
+  box-sizing: border-box;
+  justify-content: flex-end;
+}
+
+.tweet-nickname {
+  margin: 0;
+  font-weight: bold;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  color: #6c757d;
+  flex-basis: 50%;
+}
+
+.tweet-date {
+  margin: 0;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  text-align: right;
+  color: #6c757d;
+  flex-basis: 50%;
+  justify-content: flex-end;
+}
+
+.tweet-text {
+  margin: 10px 0 0 0;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  flex-basis: 100%;
+  text-align: justify;
+  hyphens: auto;
+  word-break: break-all;
+}
