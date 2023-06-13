@@ -4,3 +4,31 @@
   justify-content: center;
   align-items: center;
 }
+.SubHeader-Button-Div {
+  display: grid;
+  grid-template-columns: 30% 20% auto auto;
+  grid-template-areas: "sort like . .";
+  position: relative;
+  padding: 10px 10px 10px 10px;
+  margin: 0px 10px 10px 10px;
+  left: 22%;
+  right: 10%;
+}
+.SubHeader-Sort-Button {
+  grid-area: sort;
+  background-color: rgb(133, 207, 125);
+  border: none;
+  border-radius: 20%;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  opacity: 0.7;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  position: absolute;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.SubHeader-Button-Div {
+  color: white;
+}

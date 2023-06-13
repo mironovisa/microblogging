@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #15202b;
+  color: #fff;
+}
+
+.form-container {
+  border: 1px solid white;
+  border-radius: 10%;
+  padding: 70px;
+  opacity: 0.95;
+  width: 50vh;
+  height: 50vh;
+}
+
+.form-container:hover {
+  opacity: 1;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.Tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.Tabs a {
+  color: white;
+}
+
+.TabList {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+.Tab-Link {
+  color: white;
+}
+.Tab {
+  margin-right: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #444;
+  color: #fff;
+  margin-bottom: 0px;
+}
+
+.Tab:hover {
+  background-color: #666;
+}
+
+.Tab:focus {
+  outline: none;
+  background-color: white;
+  color: black;
+}
+.Tab:focus a {
+  outline: none;
+  background-color: white;
+  color: black;
+}
+
+.Tab[selected="true"] {
+  background-color: #888;
+}
+
+.Tab[selected="false"] {
+  background-color: #444;
+}
+
+.TabPanel-Login {
+  margin-top: 0px;
+}
+.TabPanel-Signup {
+  margin-top: 0px;
+}
+
+.Signup-Info {
+  margin: 5px 10px 10px;
+}

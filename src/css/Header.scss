@@ -1,0 +1,68 @@
+.Header {
+    margin-top: 0px;
+    margin-bottom: 47px;
+    width: 60%;
+    min-width: 793px;
+    height: 58px;
+    margin: 0 auto;
+    background: #343a40;
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    grid-row: auto;
+    grid-template-areas: "link1 link2 like posts search logout";
+  
+    .Links {
+      line-height: 58px;
+    }
+    .Header-button-Like{
+grid-area: like;
+    }
+    .Header-button-UserPosts{
+        grid-area: posts;
+
+    }
+    .Search{
+        line-height: 58px;
+  .SearchIcon{
+    color: white;
+
+  }}
+    .SortLikedTweets {
+      line-height: 58px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      color: white;
+      font-family: "Roboto", sans-serif;
+    }
+  .Searching-Side{
+grid-area: search;
+  }
+    .SignOut {
+      grid-area: logout;
+      line-height: 58px;
+      margin-top: 5px;
+  
+      .LogOutIcon {
+        color: white;
+
+        &:hover {
+          cursor: pointer;
+          transform: scale(1.2);
+        }
+  
+        &:active {
+          cursor: pointer;
+          transform: scale(0.8);
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .Header {
+      width: 100%;
+      max-width: none;
+    }
+  }
+  

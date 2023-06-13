@@ -1,0 +1,31 @@
+body{
+    margin: 0;
+}
+h1,
+label,
+span {
+  font-family: var(font-family);
+  color: white;
+}
+.Profilepage{
+
+    width: 40%;
+    margin: auto;
+    .Profileform{
+
+        display: grid;
+        grid-template-columns: auto auto;
+        .Profilephoto{
+            display: grid;
+            grid-template-columns: auto;
+            img{
+                width: 250px;
+                height: 250px;
+            }
+        }
+        .InputName{
+
+        }
+    }
+    
+}

@@ -1,104 +1,292 @@
-import { Toast } from "../components/Toastifyalerts";
+import { useState, useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
+import axios from "axios";
 import { toast } from "react-toastify";
-import { useState, useEffect } from "react";
+import { Toast } from "../components/Toastifyalerts";
 
 export function useTweets() {
-  const API_ENDPOINT =
-    "https://644cbbd957f12a1d3dd00594.mockapi.io/api/v1/posts";
-
-  const [tweetlist, setTweetlist] = useState([]);
+  const { API_ENDPOINT } = useContext(GlobalContext);
   const [loading, setLoading] = useState(false);
+  const [totalTweets, setTotalTweets] = useState(0);
+  const [allTweets, setAllTweets] = useState([]);
+  const [usersSortedTweets, setUsersSortedTweets] = useState([]);
+  const [likedTweets, setLikedTweets] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [commentsCount, setCommentsCount] = useState(0);
+  const likeTweet = async (id) => {
+    const userId = localStorage.getItem("userId");
+    try {
+      const response = await axios.get(`${API_ENDPOINT}/${id}`);
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error("Failed to fetch tweet data");
+      }
+      const tweetData = response.data;
+      const currentLikedBy = tweetData.likedBy;
+      if (currentLikedBy.includes(userId)) {
+        throw new Error("User has already liked the tweet");
+      }
+      const updatedLikedBy = [...currentLikedBy, userId];
+      const updateResponse = await axios.put(`${API_ENDPOINT}/${id}`, {
+        likedBy: updatedLikedBy,
+      });
 
-  const transformTweets = (tweets) => {
-    const sortedTweets = tweets.sort(
-      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-    );
+      if (updateResponse.status < 200 || updateResponse.status >= 300) {
+        throw new Error("Failed to update likedBy array");
+      }
 
-    const reversedTweets = sortedTweets.reverse();
+      toast.success("Tweet liked successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to like the tweet, try again later");
+    }
+  };
 
-    return reversedTweets.map((tweet) => {
+  const disLikeTweet = async (id) => {
+    const userId = localStorage.getItem("userId");
+    try {
+      const response = await axios.get(`${API_ENDPOINT}/${id}`);
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error("Failed to fetch tweet data");
+      }
+      const tweetData = response.data;
+      const currentLikedBy = tweetData.likedBy;
+      if (!currentLikedBy.includes(userId)) {
+        throw new Error("User has not liked the tweet");
+      }
+      const updatedLikedBy = currentLikedBy.filter(
+        (likedUserId) => likedUserId !== userId
+      );
+      const updateResponse = await axios.put(`${API_ENDPOINT}/${id}`, {
+        likedBy: updatedLikedBy,
+      });
+
+      if (updateResponse.status < 200 || updateResponse.status >= 300) {
+        throw new Error("Failed to update likedBy array");
+      }
+
+      toast.success("Tweet unliked successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to unlike the tweet, try again later");
+    }
+  };
+
+  const transformedAPITweets = (apiTweets) => {
+    return apiTweets.map((tweet) => {
       return {
         id: tweet.id,
         username: tweet.name,
         text: tweet.post,
         date: new Date(tweet.createdAt).toLocaleString(),
+        userId: tweet.userId,
+        userImage: tweet.userImage,
+        likedBy: tweet.likedBy,
       };
     });
   };
 
-  const fetchTweets = async () => {
+  const fetchCount = async () => {
+    try {
+      const response = await axios.get(API_ENDPOINT);
+      if (response.data && response.data.count) {
+        const count = response.data.items.length;
+        setTotalTweets(count);
+      } else {
+        setTotalTweets(0);
+        console.error("Invalid response data:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching count:", error);
+    }
+  };
+
+  const fetchTweets = async (
+    myPage,
+    searchQuery = "",
+    userNameSearch = "",
+    userId,
+    username
+  ) => {
     try {
       setLoading(true);
-      const response = await fetch(API_ENDPOINT);
-      const data = await response.json();
-      const transformedTweets = transformTweets(data);
-      setTweetlist(transformedTweets);
+      const response = await axios.get(API_ENDPOINT, {
+        params: {
+          sortBy: "createdAt",
+          order: "desc",
+          page: myPage,
+          limit: 10,
+          post: searchQuery,
+          name: userNameSearch,
+        },
+      });
+      const apiTweets = response.data.items;
+      const transformedTweets = transformedAPITweets(apiTweets);
+
+      setAllTweets((prevTweets) => [...prevTweets, ...transformedTweets]);
+
+      const filteredByLikesTweets = transformedTweets.filter((tweet) =>
+        tweet.likedBy.includes(userId)
+      );
+      setLikedTweets((prevTweets) => [...prevTweets, ...filteredByLikesTweets]);
+      const filteredByUsersTweets = transformedTweets.filter((tweet) =>
+        tweet.userId.toString().includes(`${userId}`)
+      );
+      setUsersSortedTweets((prevTweets) => [
+        ...prevTweets,
+        ...filteredByUsersTweets,
+      ]);
+      fetchCount();
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchTweets();
-  }, []);
-
-  const clearTweets = async () => {
-    try {
-      setLoading(true);
-      await fetch(API_ENDPOINT, { method: "DELETE" });
-      setTweetlist([]);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+  const fetchMoreTweets = async () => {
+    const nextPage = Math.ceil(allTweets.length / 10) + 1;
+    const tryThis = localStorage.getItem("searchText");
+    const tryId = localStorage.getItem("searchId");
+    await fetchTweets(nextPage, tryThis, tryId);
+    fetchCount();
   };
 
   const addTweet = async (tweet, username) => {
     if (tweet.trim().length === 0) {
+      toast.error("Tweet can't be empty");
       return;
     }
     try {
       setLoading(true);
+      const newTweet = {
+        name: username,
+        post: tweet,
+        createdAt: new Date().toLocaleString("en-US"),
+        userId: localStorage.getItem("userId"),
+        userImage: localStorage.getItem("imageUrl"),
+      };
+      const updatedTweets = [newTweet, ...allTweets];
+      const transformedTweets = updatedTweets.map((tweet) => {
+        return {
+          id: tweet.id,
+          username: tweet.name,
+          text: tweet.post,
+          date: new Date(tweet.createdAt).toLocaleString(),
+          userId: tweet.userId,
+          userImage: tweet.userImage,
+        };
+      });
+      setAllTweets(transformedTweets);
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: username,
-          post: tweet,
-          createdAt: Date.now(),
-        }),
+        body: JSON.stringify(newTweet),
       });
+
       if (!response.ok) {
-        throw new Error("Something went wrong while posting your tweet");
+        throw new Error("Failed to add tweet.");
       }
-      const data = await response.json();
-      setTweetlist((prevTweets) => [
-        {
-          id: data.id,
-          username: data.name,
-          text: data.post,
-          date: new Date(data.createdAt).toLocaleString(),
-        },
-        ...prevTweets,
-      ]);
-      handleShowSuccess();
+      toast.success("Tweet added successfully!");
+      fetchCount();
     } catch (error) {
       console.error(error);
-      handleShowError();
     } finally {
+      setLoading(false);
+      setAllTweets([]);
+      fetchTweets();
+    }
+  };
+
+  const fetchComments = async (postId) => {
+    try {
+      const response = await axios.get(`${API_ENDPOINT}/${postId}/comments`);
+      const apiComments = response.data;
+      const transformedComments = transformedAPIComments(apiComments);
+      console.log(transformedComments);
+      setComments(transformedComments);
+      setCommentsCount(transformedComments.length);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const transformedAPIComments = (apiComments) => {
+    return apiComments.map((comment) => {
+      return {
+        id: comment.id,
+        username: comment.name,
+        text: comment.post,
+        date: new Date(comment.createdAt).toLocaleString(),
+        userId: comment.userId,
+        userImage: comment.userImage,
+      };
+    });
+  };
+
+  const addComment = async (postId, username, post) => {
+    if (post.trim().length === 0) {
+      toast.error("Please add some text!");
+      return;
+    }
+    try {
+      setLoading(true);
+      const newComment = {
+        name: username,
+        post: post,
+        createdAt: new Date().toLocaleString("en-US"),
+        userId: localStorage.getItem("userId"),
+        userImage: localStorage.getItem("imageUrl"),
+      };
+      const updatedComments = [newComment, ...comments];
+      const transformedComments = updatedComments.map((comment) => {
+        return {
+          id: comment.id,
+          username: comment.name,
+          text: comment.post,
+          date: new Date(comment.createdAt).toLocaleString(),
+          userId: comment.userId,
+          userImage: comment.userImage,
+          postId: postId,
+        };
+      });
+      setComments(transformedComments);
+      const response = await fetch(`${API_ENDPOINT}/${postId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newComment),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add comment.");
+      }
+      toast.success("Comment added successfully!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      fetchComments();
       setLoading(false);
     }
   };
-  const handleShowError = () => {
-    toast.error("Tweet cannot be longer than 140 characters");
-  };
 
-  const handleShowSuccess = () => {
-    toast.success("Success! Your tweet have been saved.");
+  return {
+    loading,
+    addTweet,
+    totalTweets,
+    fetchTweets,
+    allTweets,
+    setAllTweets,
+    totalTweets,
+    fetchCount,
+    usersSortedTweets,
+    setUsersSortedTweets,
+    likeTweet,
+    disLikeTweet,
+    fetchMoreTweets,
+    likedTweets,
+    setLikedTweets,
+    addComment,
+    fetchComments,
+    comments,
+    commentsCount,
   };
-
-  return { tweetlist, loading, addTweet, clearTweets };
 }
+
+export default useTweets;

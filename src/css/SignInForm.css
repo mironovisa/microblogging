@@ -1,0 +1,28 @@
+input {
+  background: none;
+  color: white;
+  margin-bottom: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  animation: breathing-border 2s infinite;
+}
+label {
+  padding-right: 100px;
+  margin-bottom: 5px;
+}
+
+input:focus {
+  color: white;
+}
+
+@keyframes breathing-border {
+  0% {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  100% {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}

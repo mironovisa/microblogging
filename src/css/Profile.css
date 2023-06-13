@@ -12,19 +12,25 @@ label {
 .Profilepage {
   width: 40%;
   margin: 0 auto;
+  display: grid;
+}
+.Profileform {
+  display: grid;
 }
 input {
   background: none;
   border: none;
   padding: 2% 2% 2% 2%;
   color: white;
+  border: 2px solid #cccccc;
+  width: 50vh;
 }
 input::placeholder {
   color: #ffffff;
 }
 .Usernameinput {
   box-sizing: border-box;
-  border: 2px solid #cccccc;
+
   border-radius: 6px;
   margin-top: 5px;
 }
@@ -39,7 +45,6 @@ input:focus {
 .Savebutton > button {
   margin-top: 10px;
   position: absolute;
-  right: 0px;
 }
 .Usernamespan {
   padding-top: 10px;
