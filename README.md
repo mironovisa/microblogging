@@ -1,70 +1,119 @@
-# Getting Started with Create React App
+# Micro Blogging Project
+## Summary
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Micro Blogging Project! This web application, developed in multiple stages, aims to create a fully functional microblogging platform similar to Twitter. Each milestone progressively adds new features and enhances the functionality of the app.
 
-## Available Scripts
+## Table of Contents
+- [Milestone 1 - Mock Up](#milestone-1---mock-up)
+- [Milestone 2 - Server Connection](#milestone-2---server-connection)
+- [Milestone 3 - Profile Page & Routing](#milestone-3---profile-page--routing)
+- [Milestone 4 - Context & Auto Update](#milestone-4---context--auto-update)
+- [Milestone 5 - Infinite Scrolling](#milestone-5---infinite-scrolling)
+- [Milestone 6 - Authentication](#milestone-6---authentication)
+- [Milestone 7 - Your Tweets](#milestone-7---your-tweets)
+- [Milestone 8 - User's Profile Image](#milestone-8---users-profile-image)
+- [Milestone 9 - Like Button Part 1](#milestone-9---like-button-part-1)
+- [Milestone 10 - Like Button Part 2](#milestone-10---like-button-part-2)
+- [Milestone 11 - Other Users' Profiles](#milestone-11---other-users-profiles)
+- [Milestone 13 - Search in Tweets (Optional)](#milestone-13---search-in-tweets-optional)
+- [Milestone 14 - Comments for Tweets (Optional)](#milestone-14---comments-for-tweets-optional)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-In the project directory, you can run:
+## Milestone 1 - Mock Up
+Features:
+- I implemented the main screen with two parts: "Create Tweet" and "Tweets List."
+- The tweet creation is blocked if there are more than 140 characters, and the button is disabled.
+- The tweets are saved locally, persisting even after refreshing the page.
+- The tweet list is sorted in descending order, with the latest tweet appearing first.
+- Each tweet includes a hardcoded username.
 
-### `npm start`
+## Milestone 2 - Server Connection
+Features:
+- I signed up on [MockAPI](https://mockapi.io/) and created a project and resource for tweets.
+- Instead of storing data locally, I connected the app to the new API.
+- I utilized GET and POST http methods to load tweets from the server and add new tweets.
+- Loading indicator prevents adding new tweets while a request is in progress.
+- I handled server errors and displayed messages to the user.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Milestone 3 - Profile Page & Routing
+Features:
+- I added a profile page that displays the current user's username.
+- The profile page includes a form to change the username.
+- New usernames are saved locally and sent to the server when creating a tweet.
+- A navbar with "Home" and "Profile" links remains fixed regardless of the current page.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Milestone 4 - Context & Auto Update
+Features:
+- I replaced local state and props with internal React context for managing tweet lists.
+- Instead of refreshing the list from the server, new tweets are added to the local list.
+- The navbar displays the number of published tweets.
+- An interval fetches the most updated tweets list from the server to keep it up to date.
 
-### `npm test`
+## Milestone 5 - Infinite Scrolling
+Features:
+- I implemented infinite scrolling on the tweets page.
+- Initially, 10 tweets are fetched, and loading the next 10 tweets occurs as the user scrolls down.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Milestone 6 - Authentication
+Features:
+- I implemented user authentication by adding Login and Sign Up pages.
+- Only logged-in users can view and send tweets.
+- User credentials are stored in the mockAPI project's user resource.
+- A logout button removes the user's ID from local storage.
+- Profile page updates user information from the server.
 
-### `npm run build`
+## Milestone 7 - Your Tweets
+Features:
+- Usernames on tweets link to profiles, where users can view their own tweets.
+- A toggleable element allows users to switch between viewing all tweets and only their tweets.
+- The page's appearance changes based on the selected option.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Milestone 8 - User's Profile Image
+Features:
+- I added profile picture upload functionality using an online service like [Cloudinary](https://cloudinary.com/).
+- Profile images are stored online and linked to user information on the server.
+- Uploaded profile pictures are displayed on user profiles and tweets.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Milestone 9 - Like Button Part 1
+Features:
+- I incorporated a like button for each tweet.
+- Clicking the button toggles the "liked" status and displays accordingly.
+- Users can "unlike" a tweet.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Milestone 10 - Like Button Part 2
+Features:
+- I utilized the backend API to track liked tweets by users.
+- A "Liked Tweets" button filters tweets by user likes.
+- Users can switch between viewing liked tweets and all tweets.
 
-### `npm run eject`
+## Milestone 11 - Other Users' Profiles
+Features:
+- Usernames on tweets link to profiles of the tweet authors.
+- Clicking a username takes users to a page displaying the profile of the user who wrote the tweet.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Milestone 13 - Search in Tweets (Optional)
+Features:
+- I added a search bar to the navbar for signed-in users.
+- The search bar allows users to search tweets and users.
+- Search results are displayed by filtering the tweet list.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Milestone 14 - Comments for Tweets (Optional)
+Features:
+- I introduced a comments feature for tweets, inspired by social media platforms.
+- Users can leave comments on tweets, enhancing engagement and interaction.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Getting Started
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To set up and run the Micro Blogging Project locally, follow these steps:
 
-## Learn More
+1. Clone this repository to your local machine.
+2. Navigate to the project directory and install dependencies using `npm install`.
+3. Start the development server with `npm start`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contact
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For any questions or inquiries, feel free to reach out to us at mironovisa@gmail.com
